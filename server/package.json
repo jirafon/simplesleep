@@ -1,0 +1,53 @@
+{
+  "name": "siempresalud-server",
+  "version": "1.0.0",
+  "description": "Backend server for Siempresalud",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "copy-frontend": "node scripts/copy-frontend.js",
+    "generate-demo": "node scripts/generateDemoData.js",
+    "generate-doctor-records": "node scripts/generateDoctorRecords.js",
+    "bitacora:rebuild": "node scripts/rebuildBitacoraForUser.js",
+    "bitacora:rebuild:apply": "node scripts/rebuildBitacoraForUser.js --apply",
+    "fix:payment-index": "node scripts/fixPaymentNumberIndex.js",
+    "payments:resequence": "node scripts/resequencePaymentNumbers.js",
+    "payments:resequence:apply": "node scripts/resequencePaymentNumbers.js --apply",
+    "payments:counter:sync": "node scripts/resequencePaymentNumbers.js --apply",
+    "orders:pdf:regen": "node scripts/regenerateOrderPdfs.js",
+    "orders:pdf:regen:apply": "node scripts/regenerateOrderPdfs.js --apply",
+    "verify-build": "node scripts/verify-build.js",
+    "test:flow": "node scripts/testFlowSandbox.js",
+    "test:cleanup": "node scripts/testSiempreSleepCleanup.js",
+    "test:sleep-score": "node scripts/testSleepScore.js",
+    "test:sleep-phase2": "node scripts/testSleepPhase2.js",
+    "test:sleep-i18n": "node scripts/testSleepI18n.js",
+    "seed:sleep-demo": "node scripts/seedSleepDemo.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.972.0",
+    "@aws-sdk/s3-request-presigner": "^3.972.0",
+    "@sendgrid/mail": "^8.1.6",
+    "axios": "^1.15.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.3.2",
+    "firebase-admin": "^13.10.0",
+    "form-data": "^4.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "mailgun.js": "^12.7.0",
+    "mongoose": "^8.23.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.12",
+    "openai": "^6.16.0",
+    "pdfkit": "^0.17.2",
+    "svg-to-pdfkit": "^0.1.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

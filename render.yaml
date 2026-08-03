@@ -1,0 +1,49 @@
+services:
+  # Backend API (Node/Express)
+  - type: web
+    name: siempresalud-server
+    env: node
+    plan: starter
+    buildCommand: |
+      echo "📂 Working directory: $(pwd)"
+      echo "📂 Directory contents:"
+      ls -la
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "Step 1: Install server dependencies"
+      cd server
+      npm install --legacy-peer-deps
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "✅ Backend build complete!"
+    startCommand: cd server && node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Define estas en el dashboard de Render (no se comitean):
+      # - key: MONGO_URL
+      #   sync: false
+      # - key: JWT_SECRET
+      #   sync: false
+      # - key: MAILGUN_API_KEY
+      #   sync: false
+      # - key: MAILGUN_DOMAIN
+      #   sync: false
+      # - key: MAILGUN_FROM_EMAIL
+      #   sync: false
+      # - key: OPEN_API_KEY
+      #   sync: false
+    healthCheckPath: /health
+
+  # Frontend oficial (Static Site)
+  - type: static
+    name: saludsimple
+    env: static
+    rootDir: client
+    buildCommand: |
+      npm install --legacy-peer-deps && npm run build
+    publishPath: build
+    envVars:
+      # Debe apuntar al backend (sin /api, sin slash final)
+      - key: REACT_APP_BASE_URL
+        value: https://siempresalud-server.onrender.com

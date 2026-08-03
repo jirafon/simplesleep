@@ -1,0 +1,14 @@
+{
+  "name": "saludsimple-root",
+  "private": true,
+  "engines": {
+    "node": "20.x",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "render-build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client && node server/scripts/copy-frontend.js"
+  },
+  "dependencies": {
+    "express-validator": "^7.3.1"
+  }
+}
