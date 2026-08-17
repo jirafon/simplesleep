@@ -41,7 +41,19 @@ const FEATURE_FLAGS = {
   /** Botón de ayuda familiar (antes pánico/SOS) */
   HELP_BUTTON: envFlag('HELP_BUTTON', true),
   /** Rutas legacy Smartrisk / spinoffs */
-  LEGACY_SPINOFFS: envFlag('LEGACY_SPINOFFS', false)
+  LEGACY_SPINOFFS: envFlag('LEGACY_SPINOFFS', false),
+
+  /** AI Sleep Context Coach */
+  SLEEP_CONTEXT_ENGINE: envFlag('SLEEP_CONTEXT_ENGINE', true),
+  PHONE_USAGE_CONTEXT: envFlag('PHONE_USAGE_CONTEXT', true),
+  PHONE_ENVIRONMENT_CONTEXT: envFlag('PHONE_ENVIRONMENT_CONTEXT', false),
+  HEALTH_CONNECT: envFlag('HEALTH_CONNECT', true),
+  AI_MORNING_BRIEF: envFlag('AI_MORNING_BRIEF', true),
+  AI_SLEEP_COACH: envFlag('AI_SLEEP_COACH', true),
+  SLEEP_CONTEXT_TIMELINE: envFlag('SLEEP_CONTEXT_TIMELINE', true),
+  PERSONAL_SLEEP_EXPERIMENTS: envFlag('PERSONAL_SLEEP_EXPERIMENTS', true),
+  /** Server-side ambient ingestion allowed when clients send environment */
+  PHONE_ENVIRONMENT_CONTEXT: envFlag('PHONE_ENVIRONMENT_CONTEXT', true)
 };
 
 export const isFeatureEnabled = (flagName) => Boolean(FEATURE_FLAGS[flagName]);

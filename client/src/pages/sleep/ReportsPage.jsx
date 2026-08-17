@@ -15,6 +15,7 @@ function ReportsPage() {
   const t = useT();
   const [report, setReport] = useState(null);
   const [nights, setNights] = useState([]);
+  const [weeklyStory, setWeeklyStory] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function ReportsPage() {
         const { data } = await apiClient.get('/sleep/v1/report/weekly');
         setReport(data?.report);
         setNights(data?.nights || []);
+        setWeeklyStory(data?.weeklyStory || data?.report?.summary?.weeklyStory || null);
       } catch (err) {
         setError(err.response?.data?.message || t('app.reports.unavailable'));
       }
@@ -39,6 +41,7 @@ function ReportsPage() {
   }
 
   const s = report?.summary;
+  const dataStory = weeklyStory;
 
   return (
     <SleepLayout
@@ -51,6 +54,47 @@ function ReportsPage() {
         <p className="text-sm text-slate-600">{t('app.common.loading')}</p>
       ) : (
         <div className="max-w-2xl space-y-5">
+          {(s.weeklyStory || dataStory) && (
+            <section className="rounded-3xl bg-slate-900 text-white p-6 shadow-lg">
+              <p className="text-xs uppercase tracking-[0.2em] text-teal-200/80 mb-2">
+                {(s.weeklyStory || dataStory).title || t('app.reports.weekStory')}
+              </p>
+              <div className="grid grid-cols-2 gap-4 mt-3">
+                <div>
+                  <p className="text-xs text-slate-400">{t('app.reports.avgSleep')}</p>
+                  <p className="text-2xl" style={{ fontFamily: 'Fraunces, Georgia, serif' }}>
+                    {(s.weeklyStory || dataStory).stats?.avgSleepLabel ||
+                      (s.avgSleepMinutes != null
+                        ? `${Math.round((s.avgSleepMinutes / 60) * 10) / 10} h`
+                        : '—')}
+                  </p>
+                  {(s.weeklyStory || dataStory).stats?.avgSleepDeltaMinutes != null && (
+                    <p className="text-sm text-sky-200">
+                      {(s.weeklyStory || dataStory).stats.avgSleepDeltaMinutes >= 0 ? '↑' : '↓'}{' '}
+                      {Math.abs((s.weeklyStory || dataStory).stats.avgSleepDeltaMinutes)} min
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">{t('app.reports.avgScore')}</p>
+                  <p className="text-2xl" style={{ fontFamily: 'Fraunces, Georgia, serif' }}>
+                    {(s.weeklyStory || dataStory).stats?.avgScore ?? s.avgScore ?? '—'}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-5 space-y-3 text-sm text-slate-200">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-teal-200/70">{t('app.reports.whatChanged')}</p>
+                  <p className="mt-1">{(s.weeklyStory || dataStory).whatChanged}</p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-teal-200/70">{t('app.reports.nextWeek')}</p>
+                  <p className="mt-1">{(s.weeklyStory || dataStory).nextWeek || s.nextWeekRecommendation}</p>
+                </div>
+              </div>
+            </section>
+          )}
+
           <p
             className="text-xl text-slate-800 leading-relaxed"
             style={{ fontFamily: 'Fraunces, Georgia, serif' }}

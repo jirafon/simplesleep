@@ -86,6 +86,42 @@ const EXPERIMENT_CATALOG = [
     checkField: 'exercise'
   },
   {
+    id: 'no_phone_30_before_bed',
+    title: 'No phone 30 min before bed',
+    goal: 'See whether putting the phone down earlier is associated with longer or calmer nights for you.',
+    durationDays: 7,
+    dailyAction: 'Put your phone down at least 30 minutes before sleep.',
+    reminderHint: 'Screen-free time',
+    checkField: 'screens'
+  },
+  {
+    id: 'no_phone_60_before_bed',
+    title: 'No phone 60 min before bed',
+    goal: 'A longer phone-free wind-down to compare against your personal baseline.',
+    durationDays: 7,
+    dailyAction: 'Put your phone down at least 60 minutes before sleep.',
+    reminderHint: 'Screen-free time',
+    checkField: 'screens'
+  },
+  {
+    id: 'morning_sunlight',
+    title: 'Morning sunlight',
+    goal: 'Morning light exposure and how your next nights feel.',
+    durationDays: 7,
+    dailyAction: 'Get a few minutes of morning daylight if you can.',
+    reminderHint: 'Short walk',
+    checkField: 'exercise'
+  },
+  {
+    id: 'bedroom_darker',
+    title: 'Bedroom darker',
+    goal: 'A darker sleep environment and your morning energy.',
+    durationDays: 7,
+    dailyAction: 'Make the bedroom as dark as comfortable tonight.',
+    reminderHint: 'Evening check-in',
+    checkField: 'bedroomTemp'
+  },
+  {
     id: 'reduce_liquids_before_sleep',
     title: 'Reduce liquids before sleeping',
     goal: 'Fewer late liquids and bathroom wake-ups — for your own pattern only.',

@@ -84,14 +84,32 @@ function InsightsPage() {
             key={insight.insightKey || insight.body}
             className="rounded-2xl border border-slate-200 bg-white p-5"
           >
-            {insight.title && (
-              <p className="text-xs uppercase tracking-widest text-slate-400 mb-1">{insight.title}</p>
-            )}
-            <p className="text-slate-800 leading-relaxed">{insight.body}</p>
-            <p className="text-xs text-slate-400 mt-2">
-              {t('app.insights.associationNote')} · {t('app.insights.confidence')}{' '}
-              {insight.confidence || 'low'}
+            <p className="text-xs uppercase tracking-[0.2em] text-teal-800/70 mb-2">
+              {t('app.insights.weFound')}
             </p>
+            {insight.title && (
+              <p
+                className="text-lg text-slate-900 mb-2"
+                style={{ fontFamily: 'Fraunces, Georgia, serif' }}
+              >
+                {insight.title}
+              </p>
+            )}
+            <p className="text-slate-800 leading-relaxed">{insight.body || insight.observation}</p>
+            <p className="text-xs text-slate-400 mt-3">
+              {insight.sampleSize
+                ? t('app.insights.basedOn', { n: insight.sampleSize })
+                : t('app.insights.associationNote')}{' '}
+              · {t('app.insights.confidence')} {insight.confidence || 'low'}
+            </p>
+            {weekNights.length > 1 && (
+              <details className="mt-3">
+                <summary className="text-sm text-teal-800 cursor-pointer">{t('app.insights.seeData')}</summary>
+                <div className="mt-3">
+                  <ScoreTrendChart nights={weekNights} height={120} emptyLabel={t('app.sleepHistory.empty')} />
+                </div>
+              </details>
+            )}
           </article>
         ))}
 

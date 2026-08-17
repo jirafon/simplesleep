@@ -47,7 +47,7 @@ const DEFAULT_IMPORTANT_REMINDERS = [
     endTime: '22:30',
     frequency: 'daily',
     frequencyMinutes: 1440,
-    enabled: true,
+    enabled: false,
     aiRecommended: true,
     aiReason: 'La noche favorece bajar estrés y preparar sueño.'
   },
@@ -63,6 +63,32 @@ const DEFAULT_IMPORTANT_REMINDERS = [
     enabled: true,
     aiRecommended: true,
     aiReason: 'Una pausa de tarde ayuda a cortar estrés y recuperar foco.'
+  },
+  {
+    id: 'sleep_phone_down',
+    label: 'Deja el teléfono',
+    vibrationCount: 3,
+    time: '21:45',
+    startTime: '21:45',
+    endTime: '21:45',
+    frequency: 'daily',
+    frequencyMinutes: 1440,
+    enabled: false,
+    aiRecommended: true,
+    aiReason: 'La pulsera vibra 3 veces para guardar el teléfono antes de dormir.'
+  },
+  {
+    id: 'sleep_bedtime',
+    label: 'Hora de dormir',
+    vibrationCount: 7,
+    time: '22:30',
+    startTime: '22:30',
+    endTime: '22:30',
+    frequency: 'daily',
+    frequencyMinutes: 1440,
+    enabled: false,
+    aiRecommended: true,
+    aiReason: 'La pulsera vibra 7 veces cuando es hora de ir a dormir.'
   }
 ];
 

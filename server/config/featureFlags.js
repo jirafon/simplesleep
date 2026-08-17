@@ -27,7 +27,17 @@ const FEATURE_FLAGS = {
   OPTIONAL_LOCATION: envFlag('OPTIONAL_LOCATION', true),
   HELP_BUTTON: envFlag('HELP_BUTTON', true),
   /** Keep legacy /panic path for APK compatibility while preferring /help */
-  LEGACY_PANIC_ALIAS: envFlag('LEGACY_PANIC_ALIAS', true)
+  LEGACY_PANIC_ALIAS: envFlag('LEGACY_PANIC_ALIAS', true),
+
+  /** AI Sleep Context Coach — Phase 1+ */
+  SLEEP_CONTEXT_ENGINE: envFlag('SLEEP_CONTEXT_ENGINE', true),
+  PHONE_USAGE_CONTEXT: envFlag('PHONE_USAGE_CONTEXT', true),
+  PHONE_ENVIRONMENT_CONTEXT: envFlag('PHONE_ENVIRONMENT_CONTEXT', true),
+  HEALTH_CONNECT: envFlag('HEALTH_CONNECT', true),
+  AI_MORNING_BRIEF: envFlag('AI_MORNING_BRIEF', true),
+  AI_SLEEP_COACH: envFlag('AI_SLEEP_COACH', true),
+  SLEEP_CONTEXT_TIMELINE: envFlag('SLEEP_CONTEXT_TIMELINE', true),
+  PERSONAL_SLEEP_EXPERIMENTS: envFlag('PERSONAL_SLEEP_EXPERIMENTS', true)
 };
 
 const isFeatureEnabled = (flagName) => Boolean(FEATURE_FLAGS[flagName]);

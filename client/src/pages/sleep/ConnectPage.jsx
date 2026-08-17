@@ -72,6 +72,7 @@ function ConnectPage() {
 
   const helpEnabled = isFeatureEnabled('HELP_BUTTON');
   const locationEnabled = isFeatureEnabled('OPTIONAL_LOCATION');
+  const healthConnectEnabled = isFeatureEnabled('HEALTH_CONNECT');
 
   const saveContacts = async () => {
     setSaving(true);
@@ -196,6 +197,20 @@ function ConnectPage() {
 
   return (
     <SleepLayout title={t('app.connect.title')} subtitle={t('app.connect.subtitle')}>
+      {healthConnectEnabled && (
+        <section className="mb-10 rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/80 to-white p-6">
+          <h2 className="text-xl font-semibold mb-1">{t('app.connect.healthConnectTitle')}</h2>
+          <p className="text-sm text-slate-600 mb-3">{t('app.connect.healthConnectBody')}</p>
+          <ul className="text-sm text-slate-700 space-y-1 mb-3">
+            <li>✓ {t('app.connect.hcSleep')}</li>
+            <li>✓ {t('app.connect.hcSteps')}</li>
+            <li>✓ {t('app.connect.hcHr')}</li>
+          </ul>
+          <p className="text-xs text-slate-500 mb-3">{t('app.connect.hcPrivacy')}</p>
+          <p className="text-sm text-teal-900 font-medium">{t('app.connect.hcAndroid')}</p>
+        </section>
+      )}
+
       {helpEnabled && (
         <section className="mb-10 rounded-2xl border border-slate-200 bg-white p-6">
           <h2 className="text-xl font-semibold mb-1">{HELP_BUTTON_LABELS.family}</h2>

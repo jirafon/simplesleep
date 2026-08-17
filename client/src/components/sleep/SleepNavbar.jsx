@@ -5,7 +5,7 @@ import {
   FaTimes,
   FaMoon,
   FaHome,
-  FaSeedling,
+  FaComments,
   FaLightbulb,
   FaUsers,
   FaUser,
@@ -14,6 +14,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useT } from '../../i18n/useT';
 import LanguageToggle from '../LanguageToggle';
+import FEATURE_FLAGS from '../../config/featureFlags';
 
 function SleepNavbar() {
   const { token, user, logout } = useAuth();
@@ -27,7 +28,9 @@ function SleepNavbar() {
   const primaryNav = [
     { to: '/dashboard', label: t('app.nav.today'), icon: FaHome },
     { to: '/sleep', label: t('app.nav.sleep'), icon: FaMoon },
-    { to: '/improve', label: t('app.nav.improve'), icon: FaSeedling },
+    FEATURE_FLAGS.AI_SLEEP_COACH
+      ? { to: '/coach', label: t('app.nav.coach'), icon: FaComments }
+      : { to: '/improve', label: t('app.nav.improve'), icon: FaComments },
     { to: '/insights', label: t('app.nav.insights'), icon: FaLightbulb },
     { to: '/connect', label: t('app.nav.connect'), icon: FaUsers }
   ];
@@ -186,7 +189,7 @@ export default SleepNavbar;
 export const PRIMARY_NAV = [
   { to: '/dashboard', labelKey: 'app.nav.today', icon: FaHome },
   { to: '/sleep', labelKey: 'app.nav.sleep', icon: FaMoon },
-  { to: '/improve', labelKey: 'app.nav.improve', icon: FaSeedling },
+  { to: '/coach', labelKey: 'app.nav.coach', icon: FaComments },
   { to: '/insights', labelKey: 'app.nav.insights', icon: FaLightbulb },
   { to: '/connect', labelKey: 'app.nav.connect', icon: FaUsers }
 ];

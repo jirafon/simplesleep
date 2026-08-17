@@ -385,7 +385,10 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/health', require('./routes/health'));
 app.use('/api/wellness', require('./routes/wellness'));
-app.use('/api/sleep/v1', require('./routes/sleep'));
+const sleepRoutes = require('./routes/sleep');
+app.use('/api/sleep/v1', sleepRoutes);
+// Alias without /api for older/misconfigured mobile builds
+app.use('/sleep/v1', sleepRoutes);
 app.use('/api/mobile', require('./routes/mobile'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/payments', require('./routes/payments'));
@@ -400,14 +403,18 @@ console.log('✅ API routes registered');
 console.log('   Available routes:');
 console.log('   - POST /api/auth/register');
 console.log('   - POST /api/auth/login');
-console.log('   - GET  /api/user/bitacora');
 console.log('   - POST /api/health/data');
 console.log('   - GET  /api/health/status');
+console.log('   - GET  /api/sleep/v1/status  (public catalog)');
 console.log('   - GET  /api/sleep/v1/today');
-console.log('   - POST /api/orders/create');
-console.log('   - POST /api/payments/create');
-console.log('   - POST /api/appointments/create');
+console.log('   - POST /api/sleep/v1/context/phone');
+console.log('   - POST /api/sleep/v1/coach/chat');
+console.log('   - POST /api/sleep/v1/reminders/band/activate');
+console.log('   - GET  /api/mobile/habits');
 console.log('   - GET  /health');
+if (sleepRoutes.SLEEP_V1_ROUTES) {
+  console.log(`   - Sleep v1 routes: ${sleepRoutes.SLEEP_V1_ROUTES.length} endpoints`);
+}
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -516,7 +523,7 @@ if (process.env.NODE_ENV === 'production') {
     // Serve static files ONLY for non-API routes
     app.use((req, res, next) => {
       // Skip static file serving for API routes
-      if (req.path.startsWith('/api/')) {
+      if (req.path.startsWith('/api/') || req.path.startsWith('/sleep/')) {
         console.log('🔀 Skipping static serving for API route:', req.path);
         return next();
       }
@@ -529,10 +536,13 @@ if (process.env.NODE_ENV === 'production') {
     // Catch-all handler: serve React app for any non-API routes
     app.get('*', (req, res) => {
       // Skip API routes
-      if (req.path.startsWith('/api')) {
+      if (req.path.startsWith('/api') || req.path.startsWith('/sleep')) {
+        const { SLEEP_V1_ROUTES = [] } = require('./routes/sleep');
         return res.status(404).json({
           error: 'Route not found',
-          message: `API endpoint ${req.method} ${req.path} not found`
+          message: `API endpoint ${req.method} ${req.path} not found`,
+          hint: 'See GET /api/sleep/v1/status for the full Sleep API catalog',
+          availableRoutes: ['GET /api/sleep/v1/status', ...SLEEP_V1_ROUTES.slice(0, 15)]
         });
       }
       
@@ -561,10 +571,13 @@ if (process.env.NODE_ENV === 'production') {
     
     // Fallback error handler
     app.get('*', (req, res) => {
-      if (req.path.startsWith('/api')) {
+      if (req.path.startsWith('/api') || req.path.startsWith('/sleep')) {
+        const { SLEEP_V1_ROUTES = [] } = require('./routes/sleep');
         return res.status(404).json({
           error: 'Route not found',
-          message: `API endpoint ${req.method} ${req.path} not found`
+          message: `API endpoint ${req.method} ${req.path} not found`,
+          hint: 'See GET /api/sleep/v1/status for the full Sleep API catalog',
+          availableRoutes: ['GET /api/sleep/v1/status', ...SLEEP_V1_ROUTES.slice(0, 15)]
         });
       }
       
@@ -578,34 +591,28 @@ if (process.env.NODE_ENV === 'production') {
   }
 } else {
   // 404 handler for undefined routes (development only)
+  const { SLEEP_V1_ROUTES = [] } = require('./routes/sleep');
   app.use((req, res, next) => {
-    // Skip 404 for API routes that might be proxied
-    if (req.path.startsWith('/api')) {
+    if (req.path.startsWith('/api') || req.path.startsWith('/sleep')) {
       console.log(`\n❌ 404 - Route not found: ${req.method} ${req.originalUrl || req.path}`);
-      console.log(`   Available routes:`);
-      console.log(`   - POST /api/auth/register`);
-      console.log(`   - POST /api/auth/login`);
-      console.log(`   - GET  /api/user/bitacora`);
-      console.log(`   - GET  /api/user/profile`);
-      console.log(`   - POST /api/orders/create`);
-      console.log(`   - POST /api/appointments/create`);
-      console.log(`   - GET  /health\n`);
-      
+      const availableRoutes = [
+        'POST /api/auth/register',
+        'POST /api/auth/login',
+        'POST /api/health/data',
+        'GET /api/health/status',
+        'GET /api/sleep/v1/status',
+        ...SLEEP_V1_ROUTES.slice(0, 12),
+        'GET /api/mobile/habits',
+        'GET /api/wellness/reminders',
+        'GET /health'
+      ];
       res.status(404).json({
         error: 'Route not found',
         message: `Cannot ${req.method} ${req.originalUrl || req.path}`,
-        availableRoutes: [
-          'POST /api/auth/register',
-          'POST /api/auth/login',
-          'GET /api/user/bitacora',
-          'GET /api/user/profile',
-          'POST /api/orders/create',
-          'POST /api/appointments/create',
-          'GET /health'
-        ]
+        hint: 'See GET /api/sleep/v1/status for the full Sleep API catalog',
+        availableRoutes
       });
     } else {
-      // For non-API routes in development, just return a message
       res.status(404).json({
         error: 'Route not found',
         message: `In development, the frontend should be running separately on port 3000. This is the backend API server.`,

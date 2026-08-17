@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import SleepLayout from '../../components/sleep/SleepLayout';
+import ExperimentResultCard from '../../components/sleep/ExperimentResultCard';
 import { useAuth } from '../../context/AuthContext';
 import apiClient from '../../config/axios';
 import { useT } from '../../i18n/useT';
@@ -350,7 +351,9 @@ function ExperimentsPanel({ onMessage }) {
             {active.compliance?.rate ?? 0}%)
           </p>
           {active.result?.summary && (
-            <p className="text-sm text-indigo-200">{active.result.summary}</p>
+            <div className="pt-2">
+              <ExperimentResultCard result={active.result} compliance={active.compliance} />
+            </div>
           )}
           <div className="flex flex-wrap gap-2 pt-2">
             <button

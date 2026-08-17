@@ -27,6 +27,7 @@ import ConnectPage from './pages/sleep/ConnectPage';
 import OnboardingPage from './pages/sleep/OnboardingPage';
 import ImprovePage from './pages/sleep/ImprovePage';
 import InsightsPage from './pages/sleep/InsightsPage';
+import CoachPage from './pages/sleep/CoachPage';
 
 // Legacy surfaces — gated; code retained for data/admin compatibility
 import Bitacora from './pages/Bitacora';
@@ -108,6 +109,7 @@ function App() {
             <Route path="/sleep" element={<SleepHistoryPage />} />
             <Route path="/habits" element={<Navigate to="/improve" replace />} />
             <Route path="/improve" element={<ImprovePage />} />
+            <Route path="/coach" element={<CoachPage />} />
             <Route path="/insights" element={<InsightsPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/connect" element={<ConnectPage />} />
